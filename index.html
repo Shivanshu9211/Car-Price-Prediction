@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Predictor</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,100&display=swap');
+
+    html {
+        scroll-behavior: smooth;
+
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+
+    }
+
+    body {
+        margin: 0;
+        color: #fff;
+        background: #000;
+        overflow-x: hidden;
+        min-height: 160vh;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    p {
+        max-width: 30em;
+    }
+
+    header {
+        height: 100vh;
+        min-height: 40em;
+        background: url(/Images/blake-meyer-CRNbHjNaljo-unsplash.jpg) no-repeat center;
+        background-size: cover;
+    }
+
+    .navbar .header-body,
+    .stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar {
+        align-items: center;
+        /* justify-content: center; */
+        display: flex;
+        flex-direction: row;
+        color: #111;
+        padding: 1em 2em;
+        position: sticky;
+        top: 0;
+
+    }
+
+    .navbar img {
+        width: 200px;
+        padding-right: 20px;
+    }
+
+    .navbar a,
+    .sidebar a {
+
+        color: #fff;
+    }
+
+    .navbar li {
+        display: inline-block;
+    }
+
+    .navbar li a,
+    .menu-btn {
+
+        transition: 0.3s;
+        padding: 0.3em 0.8em;
+        border-radius: 0.5em;
+    }
+
+    .navbar li a:hover,
+    .menu-btn:hover {
+        background: rgba(191, 191, 191, 0.5);
+    }
+
+    .brand {
+        width: 7em;
+    }
+
+    .header-body {
+        flex-direction: column;
+        text-align: center;
+        height: 90%;
+        padding: 0 2em;
+    }
+
+    .header-body p {
+        margin: 1em auto 3em auto;
+    }
+
+    .title {
+        font-size: 3.4rem;
+        color: #ffffff;
+        margin: 0.3em 0;
+    }
+
+    .stats {
+        width: 100%;
+        float: left;
+        gap: 13em;
+        margin-bottom: 1em;
+        justify-content: center;
+        display: flex;
+        padding: 20em 0;
+    }
+
+    .stats>div {
+        width: 10em;
+    }
+
+    .stats h2 {
+        font-size: 2.3em;
+    }
+
+    .stats h2 span {
+        font-size: 0.5em;
+    }
+
+    .gauge {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .gauge img {
+
+        filter: invert(100%);
+        width: 30%;
+    }
+
+    /* .intro-img{
+        display: flex;
+        flex-direction: column;
+    } */
+    .btn {
+        color: #fff;
+        border: 3px black solid;
+        padding: 0.6em 0;
+        width: 12em;
+        border-radius: 3em;
+        font-size: 0.9em;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #fff;
+        color: #000;
+    }
+
+    .arrow {
+        width: 1.4em;
+        animation: arrow 5s ease infinite;
+        cursor: pointer;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 650px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 28px;
+        margin: 0 25px;
+        border-radius: 10px;
+        box-shadow: inset -2px 2px 2px white;
+    }
+
+    .form-title {
+        font-size: 26px;
+        font-weight: 600;
+        text-align: center;
+        padding-bottom: 6px;
+        color: white;
+        text-shadow: 2px 2px 2px black;
+        border-bottom: solid 1px white;
+    }
+
+    .main-user-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 20px 0;
+    }
+
+    .user-input-box:nth-child(2n) {
+        justify-content: end;
+    }
+
+    .user-input-box {
+        display: flex;
+        flex-wrap: wrap;
+        width: 50%;
+        padding-bottom: 15px;
+    }
+
+    .user-input-box label {
+        width: 95%;
+        color: white;
+        font-size: 20px;
+        font-weight: 400;
+        margin: 5px 0;
+    }
+
+    .user-input-box input {
+        height: 40px;
+        width: 95%;
+        border-radius: 7px;
+        outline: none;
+        border: 1px solid grey;
+        padding: 0 10px;
+    }
+
+    .container {
+        padding: 10em 0;
+        margin: 0 23em;
+    }
+
+    .selection-title {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        border-bottom: 1px solid white;
+    }
+
+    .selection-category {
+        margin: 15px 0;
+        color: white;
+    }
+
+    .selection-category label {
+        padding: 0 20px 0 5px;
+    }
+
+    .selection-category label,
+    .selection-category input,
+    .form-submit-btn input {
+        cursor: pointer;
+    }
+
+    .form-submit-btn {
+        margin-top: 40px;
+    }
+
+    .form-submit-btn input {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 35px;
+        color: rgb(209, 209, 209);
+        background: rgba(63, 114, 76, 0.7);
+    }
+
+    .form-submit-btn:hover {
+        background: rgba(56, 204, 93, 0.7);
+        color: white;
+    }
+
+    .answer {
+        color: white;
+    }
+
+    #Search{
+        background: url('/Images/peter-broomfield-m3m-lnR90uM-unsplash.jpg') no-repeat center;
+        background-size: cover;
+
+    }
+    .team-area{
+        background: url('/Images/graham-pengelly-ifC-l1kPLCs-unsplash.jpg') no-repeat center;
+        background-size: cover;
+    }
+    @media(max-width: 600px) {
+        .container {
+            min-width: 280px;
+        }
+
+        .user-input-box {
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .user-input-box:nth-child(2n) {
+            justify-content: space-between;
+        }
+
+        .selection-category {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .main-user-info {
+            max-height: 380px;
+            overflow: auto;
+        }
+
+        .main-user-info::-webkit-scrollbar {
+            width: 0;
+        }
+    }
+
+    .section-title h2 {
+        text-transform: uppercase;
+    }
+
+    .section-title {
+        margin: 3% 0;
+        text-align: center;
+    }
+
+    .section-title p {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .single-team {
+        padding-bottom: 70px;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        box-shadow: 5px 5px 15px rgb(0, 0, 0);
+    }
+
+    .team-img {
+
+        position: relative;
+        z-index: 5;
+        overflow: hidden;
+
+    }
+
+    .team-img img {
+        height: 400px;
+        width: 100%;
+        transition: 0.3s;
+    }
+
+    .single-team:hover .team-img img {
+        transform: scale(1, 1);
+    }
+
+    .team-content {
+        height: 80px;
+        width: 100%;
+        position: absolute;
+        text-align: center;
+        overflow: hidden;
+        bottom: 0;
+        transition: all 0.4s;
+        background: tomato;
+        z-index: 5;
+    }
+
+    .about-container {
+        display: flex;
+        flex-direction: row;
+        flex-flow: wrap;
+        width: 95%;
+        /* max-width: 75%; */
+        background: rgba(0, 0, 0, 0.5);
+        padding: 28px;
+        margin: 0 28px;
+        border-radius: 10px;
+        box-shadow: inset -2px 2px 2px white;
+
+
+
+    }
+
+    .col-md-3 {
+        padding: 15px;
+        float: left;
+        width: 25%;
+        height: auto;
+        padding-bottom: 10px;
+    }
+
+    .single-team:hover .team-content {
+        height: 150px;
+    }
+
+    .team-info {
+        padding: 5px 20px 5px 20px;
+        transition: all .5s;
+    }
+
+    .single-team:hover .team-content {
+        background: black;
+    }
+
+    .single-team .team-content .team-info h3 {
+        text-transform: uppercase;
+        color: white;
+        font-size: 16px;
+        margin: 5px;
+    }
+
+    .single-team:hover .team-info h3 {
+        color: tomato;
+    }
+
+    .team-info p {
+        margin-top: 15px;
+        color: white;
+    }
+
+    .single-team-text p {
+        margin-top: 5px;
+    }
+
+    .team-text {
+        color: white;
+        padding: 0 10px 5px;
+    }
+</style>
+
+<body>
+    <header>
+        <nav id="nav" class="navbar">
+            <a href="#">
+                <img src="/Images/logo.png" alt="logo">
+            </a>
+            <ul>
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#Search">
+                        Search
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        Contact Us
+                    </a>
+                </li>
+                <li>
+                    <a href="#about">
+                        About Us
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        <div class="sidebar-backdrop"></div>
+        <div class="header-body" id="home">
+            <h1 class="title">Car Prediction</h1>
+            <div>
+                <p>
+                    Most accurate predictions for your cars. Know the exact Worth of your car.
+                </p>
+                <div class="stats">
+                    <div>
+                        <div class="gauge">
+                            <img src="/Images/brand-new-car-with-dollar-price-tag.png" alt="">
+                            <h2 class="intro-img"> 20+</h2>
+                        </div>
+                        <div class="intro-img">
+                            <small>
+                                Car Brands
+                            </small>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="gauge">
+
+                            <img src="/Images/sedan.png" alt="">
+                            <h2 class="intro-img">
+                                <!-- <span>+</span>100 -->
+                                100+
+                            </h2>
+                        </div>
+                        <div class="intro-img">
+                            <small>Cars</small>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="gauge">
+                            <img src="/Images/best-seller.png" alt="">
+                            <h2 class="intro-img">Best</h2>
+                        </div>
+                        <div class="intro-img">
+                            <small>Predictions</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- <a href="#">
+                    <img class="arrow" src="/Images/arrow-down-sign-to-navigate.png" alt="">
+                </a> -->
+            </div>
+        </div>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <section id="Search">
+        <div class="container">
+            <h1 class="form-title">Search</h1>
+            <form action="{{ url_for('predict)}}" method="post">
+                <div class="main-user-info">
+                    <div class="user-input-box">
+                        <label for="">Year</label>
+                        <input type="number" id="Year" name="Year" placeholder="Enter Year of Purchase" />
+                    </div>
+                    <div class="user-input-box">
+                        <label for="fullnamPrice">Enter Showroom Price</label>
+                        <input type="number" id="Price" name="Price" placeholder="Enter Price (*IN Lakhs)" />
+                    </div>
+                    <div class="user-input-box">
+                        <label for="Driven">Enter Distace</label>
+                        <input type="number" id="Distance" name="Distance"
+                            placeholder="Enter Distance  Travelled By Vehicles" />
+                    </div>
+                    <div class="user-input-box">
+                        <label for="hand">No. of Previous Owners </label>
+                        <input type="number" id="hand" name="hand"
+                            placeholder="Number Of Previous Owners (0 or 1 or etc)" />
+                    </div>
+
+                </div>
+                <div class="selection-box">
+                    <span class="selection-title">Fuel type</span>
+                    <div class="selection-category">
+                        <input type="radio" name="Fuel" id="Petrol">
+                        <label for="Petrol">Petrol</label>
+                        <input type="radio" name="Fuel" id="Diesel">
+                        <label for="Diesel">Diesel</label>
+                        <input type="radio" name="Fuel" id="CNG">
+                        <label for="CNG">CNG</label>
+                    </div>
+                    <span class="selection-title">Are you a Dealer or Individual</span>
+                    <div class="selection-category">
+                        <input type="radio" name="ownership" id="Dealer">
+                        <label for="Dealer">Dealer</label>
+                        <input type="radio" name="ownership" id="Individual">
+                        <label for="Individual">Individual</label>
+                    </div>
+                    <span class="selection-title">Transmission</span>
+                    <div class="selection-category">
+                        <input type="radio" name="Transmission" id="Mannual">
+                        <label for="Mannual">Mannual</label>
+                        <input type="radio" name="Transmission" id="Automatic">
+                        <label for="Automatic">Automatic</label>
+                    </div>
+                </div>
+                <div class="form-submit-btn">
+                    <input type="submit" value="Prediction">
+                </div>
+            </form>
+
+            <br><br>
+            <h2 class="answer">{{ prediction_text }}</h2>
+        </div>
+    </section>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section class="'about" id="about">
+        <div class="team-area">
+            <div class="about-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-container">
+                            <h2>About Us</h2>
+                            <p>
+                                Meet Our Talented Team Member
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="single-team">
+                            <div class="team-img">
+                                <img src="/Images/1.jfif" alt="">
+                            </div>
+                            <div class="team-content">
+                                <div class="team-info">
+                                    <h3>Muskan Chaturvedi</h3>
+                                    <p>UI/UX Designer</p>
+                                </div>
+                                <p class="team-text">Lorem ipsum dolor sit amet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="single-team">
+                            <div class="team-img">
+                                <img src="/Images/2.jfif" alt="">
+                            </div>
+                            <div class="team-content">
+                                <div class="team-info">
+                                    <h3>Rudransh Sharma</h3>
+                                    <p>Data Scientist</p>
+                                </div>
+                                <p class="team-text">Lorem ipsum dolor sit amet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="single-team">
+                            <div class="team-img">
+                                <img src="/Images/3.jfif" alt="">
+                            </div>
+                            <div class="team-content">
+                                <div class="team-info">
+                                    <h3>Shivanshu Tiwari</h3>
+                                    <p>Web Developer</p>
+                                </div>
+                                <p class="team-text">Lorem ipsum dolor sit amet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="single-team">
+                            <div class="team-img">
+                                <img src="/Images/4.jfif" alt="">
+                            </div>
+                            <div class="team-content">
+                                <div class="team-info">
+                                    <h3>Vinayak Agrawal</h3>
+                                    <p>Content Writer</p>
+                                </div>
+                                <p class="team-text">Lorem ipsum dolor sit amet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+
+</html>
